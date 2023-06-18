@@ -38,7 +38,7 @@
     "predocker:others:up": "",
     "docker:others:up": "",
     "e2e": "npm run e2e:cypress:headed --",
-    "e2e:cypress": "cypress run --e2e --browser chrome ",
+    "e2e:cypress": "cypress run --e2e --browser chrome --record ${CYPRESS_ENABLE_RECORD:-false}",
     "e2e:cypress:headed": "npm run e2e:cypress -- --headed",
     "e2e:dev": "concurrently -k -s first \"./mvnw\" \"npm run e2e\"",
     "e2e:devserver": "concurrently -k -s first \"npm run backend:start\" \"npm start\" \"wait-on -t 180000 http-get://localhost:9000 && npm run e2e:headless -- -c baseUrl=http://localhost:9000\"",
@@ -152,9 +152,7 @@
   "engines": {
     "node": ">=16.17.0"
   },
-  "cacheDirectories": [
-    "node_modules"
-  ],
+  "cacheDirectories": ["node_modules"],
   "overrides": {
     "webpack": "5.74.0"
   }
