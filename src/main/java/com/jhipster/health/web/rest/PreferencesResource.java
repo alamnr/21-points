@@ -2,6 +2,7 @@ package com.jhipster.health.web.rest;
 
 import com.jhipster.health.domain.Preferences;
 import com.jhipster.health.repository.PreferencesRepository;
+import com.jhipster.health.security.SecurityUtils;
 import com.jhipster.health.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -50,7 +51,9 @@ public class PreferencesResource {
      * {@code POST  /preferences} : Create a new preferences.
      *
      * @param preferences the preferences to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new preferences, or with status {@code 400 (Bad Request)} if the preferences has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new preferences, or with status {@code 400 (Bad Request)} if
+     *         the preferences has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/preferences")
@@ -69,11 +72,14 @@ public class PreferencesResource {
     /**
      * {@code PUT  /preferences/:id} : Updates an existing preferences.
      *
-     * @param id the id of the preferences to save.
+     * @param id          the id of the preferences to save.
      * @param preferences the preferences to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated preferences,
-     * or with status {@code 400 (Bad Request)} if the preferences is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the preferences couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated preferences,
+     *         or with status {@code 400 (Bad Request)} if the preferences is not
+     *         valid,
+     *         or with status {@code 500 (Internal Server Error)} if the preferences
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/preferences/{id}")
@@ -101,14 +107,19 @@ public class PreferencesResource {
     }
 
     /**
-     * {@code PATCH  /preferences/:id} : Partial updates given fields of an existing preferences, field will ignore if it is null
+     * {@code PATCH  /preferences/:id} : Partial updates given fields of an existing
+     * preferences, field will ignore if it is null
      *
-     * @param id the id of the preferences to save.
+     * @param id          the id of the preferences to save.
      * @param preferences the preferences to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated preferences,
-     * or with status {@code 400 (Bad Request)} if the preferences is not valid,
-     * or with status {@code 404 (Not Found)} if the preferences is not found,
-     * or with status {@code 500 (Internal Server Error)} if the preferences couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated preferences,
+     *         or with status {@code 400 (Bad Request)} if the preferences is not
+     *         valid,
+     *         or with status {@code 404 (Not Found)} if the preferences is not
+     *         found,
+     *         or with status {@code 500 (Internal Server Error)} if the preferences
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/preferences/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -151,9 +162,11 @@ public class PreferencesResource {
     /**
      * {@code GET  /preferences} : get all the preferences.
      *
-     * @param pageable the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of preferences in body.
+     * @param pageable  the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is
+     *                  applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of preferences in body.
      */
     @GetMapping("/preferences")
     public ResponseEntity<List<Preferences>> getAllPreferences(
@@ -175,7 +188,8 @@ public class PreferencesResource {
      * {@code GET  /preferences/:id} : get the "id" preferences.
      *
      * @param id the id of the preferences to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the preferences, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the preferences, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/preferences/{id}")
     public ResponseEntity<Preferences> getPreferences(@PathVariable Long id) {
@@ -198,5 +212,25 @@ public class PreferencesResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * {@code GET /my-preferences} : get the current user's preferences
+     *
+     * @return the preferences or default (weeklyGoal: 10) if none exist.
+     */
+
+    @GetMapping("/my-preferences")
+    public ResponseEntity<Preferences> getUserPreferences() {
+        String username = SecurityUtils.getCurrentUserLogin().get();
+        log.debug("REST request to get Preferences : {}", username);
+        Optional<Preferences> preferences = preferencesRepository.findOneByUserLogin(username);
+        if (preferences.isPresent()) {
+            return new ResponseEntity<>(preferences.get(), HttpStatus.OK);
+        } else {
+            Preferences defaultPreferences = new Preferences();
+            defaultPreferences.setWeeklyGoal(10); // default
+            return new ResponseEntity<>(defaultPreferences, HttpStatus.OK);
+        }
     }
 }

@@ -76,4 +76,7 @@ export class PreferencesService {
     }
     return preferencesCollection;
   }
+  user(): Observable<EntityResponseType> {
+    return this.http.get<IPreferences>('api/my-preferences', { observe: 'response' });
+  }
 }

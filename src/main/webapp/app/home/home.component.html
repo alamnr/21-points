@@ -12,17 +12,45 @@
       <!-- <div class="alert alert-success" *ngSwitchCase="true">
         <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
           >You are logged in as user "{{ account.login }}".</span>
+      </div> -->
+      <div *ngSwitchCase="true">
+        <div class="row">
+          <div class="col-8">
+            <h4 jhiTranslate="home.points.thisWeek" class="d-none d-md-inline" [translateValues]="{ date: pointsThisWeek.week }">
+              Points for the week of {{ pointsThisWeek.week }}:
+            </h4>
+            <h4 jhiTranslate="home.points.thisWeekMobile" class="d-md-none" [translateValues]="{ date: pointsThisWeek.week }">
+              Points for {{ pointsThisWeek.week }}:
+            </h4>
+          </div>
+          <div class="col-4 col-md-3 text-end">
+            <a [routerLink]="['/points/new']" class="btn btn-primary text-white">Add Points</a>
+          </div>
+        </div>
 
-      
-        </div> -->
-      <div class="row">
-        <div class="col-md-11 col-xs-12 mt-1">
-          <ngb-progressbar [max]="21" [value]="pointsThisWeek.points" [hidden]="!pointsThisWeek.points" [striped]="true">
-            <span *ngIf="pointsThisWeek.points" class="fw-bolder"> {{ pointsThisWeek.points }} / Goal: 10 </span>
-          </ngb-progressbar>
-          <ngb-alert [dismissible]="false" [hidden]="pointsThisWeek.points">
-            <span jhiTranslate="home.points.getMoving"> No points yet this week, better get moving!</span>
-          </ngb-alert>
+        <div class="row">
+          <div class="col-md-11 col-xs-12 mt-1">
+            <ngb-progressbar [max]="21" [value]="pointsThisWeek.points" [hidden]="!pointsThisWeek.points" [striped]="true">
+              <span *ngIf="pointsThisWeek.points" class="fw-bolder">
+                {{ pointsThisWeek.points }} / Goal: {{ preferences.weeklyGoal }}
+              </span>
+            </ngb-progressbar>
+            <ngb-alert [dismissible]="false" [hidden]="pointsThisWeek.points">
+              <span jhiTranslate="home.points.getMoving"> No points yet this week, better get moving!</span>
+            </ngb-alert>
+          </div>
+        </div>
+
+        <div class="row">
+          <p class="mt-3 col-11">
+            <a
+              [routerLink]="['/preferences' + (preferences && preferences.id ? '/' + preferences.id + '/edit' : '/new')]"
+              class="float-end"
+              jhiTranslate="home.link.preferences"
+              >Edit Preferences</a
+            >
+            <a routerLink="history" jhiTranslate="home.link.history">View History</a>
+          </p>
         </div>
       </div>
 

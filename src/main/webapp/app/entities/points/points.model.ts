@@ -16,4 +16,5 @@ export type NewPoints = Omit<IPoints, 'id'> & { id: null };
 export interface IPointsPerWeek {
   week?: dayjs.Dayjs;
   points: number;
+  progress?: string;
 }
