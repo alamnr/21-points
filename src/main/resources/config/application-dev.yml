@@ -32,8 +32,8 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./target/h2db/db/twwentyonepoints;DB_CLOSE_DELAY=-1;MODE=LEGACY
-    username: TwwentyOnePoints
+    url: jdbc:h2:file:./target/h2db/db/twentyonepoints;DB_CLOSE_DELAY=-1;MODE=LEGACY
+    username: TwentyOnePoints
     password:
     hikari:
       poolName: Hikari

@@ -2,13 +2,18 @@ package com.jhipster.health.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.jhipster.health.IntegrationTest;
 import com.jhipster.health.domain.Points;
+import com.jhipster.health.domain.User;
 import com.jhipster.health.repository.PointsRepository;
+import com.jhipster.health.repository.UserRepository;
+import com.jhipster.health.security.AuthoritiesConstants;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -23,12 +28,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -63,6 +71,9 @@ class PointsResourceIT {
 
     @Autowired
     private PointsRepository pointsRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Mock
     private PointsRepository pointsRepositoryMock;
@@ -169,6 +180,7 @@ class PointsResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void getAllPoints() throws Exception {
         // Initialize the database
         pointsRepository.saveAndFlush(points);
@@ -461,5 +473,63 @@ class PointsResourceIT {
         // Validate the database contains one less item
         List<Points> pointsList = pointsRepository.findAll();
         assertThat(pointsList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    private void createPointsByWeek(LocalDate thisMonday, LocalDate lastMonday) {
+        User user = userRepository.findOneByLogin("user").get();
+
+        // Create points in two seperate weeks
+        points = new Points().date(thisMonday.plusDays(2)).exercise(1).meals(1).alcohol(1).user(user);
+        pointsRepository.saveAndFlush(points);
+
+        points = new Points().date(thisMonday.plusDays(3)).exercise(1).meals(1).alcohol(0).user(user);
+        pointsRepository.saveAndFlush(points);
+
+        points = new Points().date(thisMonday.plusDays(3)).exercise(0).meals(0).alcohol(1).user(user);
+        pointsRepository.saveAndFlush(points);
+
+        points = new Points().date(thisMonday.plusDays(4)).exercise(1).meals(1).alcohol(0).user(user);
+        pointsRepository.saveAndFlush(points);
+    }
+
+    @Test
+    @Transactional
+    public void getPointsThisWeek() throws Exception {
+        LocalDate today = LocalDate.now();
+        LocalDate thisMonday = today.with(DayOfWeek.MONDAY);
+        LocalDate lastMonday = thisMonday.minusWeeks(1);
+        createPointsByWeek(thisMonday, lastMonday);
+
+        // create a security aware mockmvc
+        /*  restPointsMockMvc = MockMvcBuilders
+                            .webAppContextSetup(context)
+                            .apply(springSecurity())
+                            .build(); */
+
+        // Get all the points
+        restPointsMockMvc
+            .perform(get("/api/points"))
+            //.with(user("user").roles("USER")))
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$", hasSize(4)));
+    }
+
+    @Test
+    @Transactional
+    public void getPointThisWeek1() throws Exception {
+        LocalDate today = LocalDate.now();
+        LocalDate thisMonday = today.with(DayOfWeek.MONDAY);
+        LocalDate lastMonday = today.minusWeeks(1);
+        createPointsByWeek(thisMonday, lastMonday);
+
+        // get points for this week
+        restPointsMockMvc
+            .perform(get("/api/points-this-week"))
+            //.with(user("user").roles("ROLES")))
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.week").value(thisMonday.toString()))
+            .andExpect(jsonPath("$.points").value(5));
     }
 }

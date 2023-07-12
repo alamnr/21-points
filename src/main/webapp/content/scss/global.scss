@@ -270,6 +270,26 @@ ui bootstrap tweaks
   cursor: pointer;
 }
 
+.heart {
+  display: inline-block;
+  width: 347px;
+  height: 347px !important;
+  background: url('../images/21-points-logo.png') no-repeat center top;
+  background-size: contain;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (min--moz-device-pixel-ratio: 2),
+  only screen and (-o-min-device-pixel-ratio: 2/1),
+  only screen and (min-device-pixel-ratio: 2),
+  only screen and (min-resolution: 192dpi),
+  only screen and (min-resolution: 2dppx) {
+  .heart {
+    background: url('../images/21-points-logo2x.png') no-repeat center top;
+    background-size: contain;
+  }
+}
+
 .thread-dump-modal-lock {
   max-width: 450px;
   overflow: hidden;

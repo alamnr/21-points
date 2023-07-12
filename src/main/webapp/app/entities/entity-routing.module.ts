@@ -6,22 +6,22 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       {
         path: 'points',
-        data: { pageTitle: 'twwentyOnePointsApp.points.home.title' },
+        data: { pageTitle: 'twentyOnePointsApp.points.home.title' },
         loadChildren: () => import('./points/points.module').then(m => m.PointsModule),
       },
       {
         path: 'weight',
-        data: { pageTitle: 'twwentyOnePointsApp.weight.home.title' },
+        data: { pageTitle: 'twentyOnePointsApp.weight.home.title' },
         loadChildren: () => import('./weight/weight.module').then(m => m.WeightModule),
       },
       {
         path: 'blood-pressure',
-        data: { pageTitle: 'twwentyOnePointsApp.bloodPressure.home.title' },
+        data: { pageTitle: 'twentyOnePointsApp.bloodPressure.home.title' },
         loadChildren: () => import('./blood-pressure/blood-pressure.module').then(m => m.BloodPressureModule),
       },
       {
         path: 'preferences',
-        data: { pageTitle: 'twwentyOnePointsApp.preferences.home.title' },
+        data: { pageTitle: 'twentyOnePointsApp.preferences.home.title' },
         loadChildren: () => import('./preferences/preferences.module').then(m => m.PreferencesModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */

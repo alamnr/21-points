@@ -2,9 +2,16 @@ package com.jhipster.health.web.rest;
 
 import com.jhipster.health.domain.Points;
 import com.jhipster.health.repository.PointsRepository;
+import com.jhipster.health.repository.UserRepository;
+import com.jhipster.health.security.AuthoritiesConstants;
+import com.jhipster.health.security.SecurityUtils;
 import com.jhipster.health.web.rest.errors.BadRequestAlertException;
+import com.jhipster.health.web.rest.vm.PointsPerWeek;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -41,9 +48,11 @@ public class PointsResource {
     private String applicationName;
 
     private final PointsRepository pointsRepository;
+    private final UserRepository userRepository;
 
-    public PointsResource(PointsRepository pointsRepository) {
+    public PointsResource(PointsRepository pointsRepository, UserRepository userRepository) {
         this.pointsRepository = pointsRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -58,6 +67,11 @@ public class PointsResource {
         log.debug("REST request to save Points : {}", points);
         if (points.getId() != null) {
             throw new BadRequestAlertException("A new points cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (!SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+            log.debug("No user passed in, using current user: {} ", SecurityUtils.getCurrentUserLogin().get());
+            String username = SecurityUtils.getCurrentUserLogin().get();
+            points.setUser(userRepository.findOneByLogin(username).get());
         }
         Points result = pointsRepository.save(points);
         return ResponseEntity
@@ -171,10 +185,15 @@ public class PointsResource {
     ) {
         log.debug("REST request to get a page of Points");
         Page<Points> page;
-        if (eagerload) {
+        /* if (eagerload) {
             page = pointsRepository.findAllWithEagerRelationships(pageable);
         } else {
             page = pointsRepository.findAll(pageable);
+        } */
+        if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+            page = pointsRepository.findAllByOrderByDateDesc(pageable);
+        } else {
+            page = pointsRepository.findByUserIsCurrentUser(pageable);
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -207,5 +226,40 @@ public class PointsResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * {@code GET /points-this-week} : get all the points for the current week
+     *
+     * @param timezone the user's timezone
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)}
+     * and a count of points in body.
+     */
+
+    @GetMapping("/points-this-week")
+    public ResponseEntity<PointsPerWeek> getPointsThisWeek(@RequestParam(value = "tz", required = false) String timeZone) {
+        // Get current date with time zone if passed in
+        LocalDate now = LocalDate.now();
+        if (timeZone != null) {
+            now = LocalDate.now(ZoneId.of(timeZone));
+        }
+        // Get first day of week
+        LocalDate startOfWeek = now.with(DayOfWeek.MONDAY);
+        // Get last day of week
+        LocalDate endofWeek = now.with(DayOfWeek.SUNDAY);
+        log.debug("Looking for points between: {} and {} ", startOfWeek, endofWeek);
+
+        List<Points> points = pointsRepository.findAllByDateBetweenAndUserLogin(
+            startOfWeek,
+            endofWeek,
+            SecurityUtils.getCurrentUserLogin().get()
+        );
+        return calculatePoints(startOfWeek, points);
+    }
+
+    private ResponseEntity<PointsPerWeek> calculatePoints(LocalDate startofWeek, List<Points> points) {
+        Integer numPoints = points.stream().mapToInt(p -> p.getExercise() + p.getMeals() + p.getAlcohol()).sum();
+        PointsPerWeek count = new PointsPerWeek(startofWeek, numPoints);
+        return new ResponseEntity<PointsPerWeek>(count, HttpStatus.OK);
     }
 }

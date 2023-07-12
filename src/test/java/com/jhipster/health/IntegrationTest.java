@@ -1,6 +1,6 @@
 package com.jhipster.health;
 
-import com.jhipster.health.TwwentyOnePointsApp;
+import com.jhipster.health.TwentyOnePointsApp;
 import com.jhipster.health.config.AsyncSyncConfiguration;
 import com.jhipster.health.config.EmbeddedSQL;
 import java.lang.annotation.ElementType;
@@ -15,7 +15,7 @@ import org.springframework.test.annotation.DirtiesContext;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@SpringBootTest(classes = { TwwentyOnePointsApp.class, AsyncSyncConfiguration.class })
+@SpringBootTest(classes = { TwentyOnePointsApp.class, AsyncSyncConfiguration.class })
 @EmbeddedSQL
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public @interface IntegrationTest {

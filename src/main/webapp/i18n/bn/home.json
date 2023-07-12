@@ -3,7 +3,7 @@
     "title": "স্বাগতম, জাভা হিপ্সটার",
     "subtitle": "এটা আপনার হোম পেইজ",
     "logged": {
-      "message": "আপনি লগ ইন করেছেন এই ইউজারনেম দিয়েঃ \"{{username}}\"."
+      "message": "স্বাগতম \"{{username}}\"."
     },
     "question": "JHipster নিয়ে প্রশ্ন থাকলে:",
     "link": {

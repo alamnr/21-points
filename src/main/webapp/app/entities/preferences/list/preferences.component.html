@@ -1,11 +1,11 @@
 <div>
   <h2 id="page-heading" data-cy="PreferencesHeading">
-    <span jhiTranslate="twwentyOnePointsApp.preferences.home.title">Preferences</span>
+    <span jhiTranslate="twentyOnePointsApp.preferences.home.title">Preferences</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="twwentyOnePointsApp.preferences.home.refreshListLabel">Refresh list</span>
+        <span jhiTranslate="twentyOnePointsApp.preferences.home.refreshListLabel">Refresh list</span>
       </button>
 
       <button
@@ -15,7 +15,7 @@
         [routerLink]="['/preferences/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="twwentyOnePointsApp.preferences.home.createLabel"> Create a new Preferences </span>
+        <span jhiTranslate="twentyOnePointsApp.preferences.home.createLabel"> Create a new Preferences </span>
       </button>
     </div>
   </h2>
@@ -25,7 +25,7 @@
   <jhi-alert></jhi-alert>
 
   <div class="alert alert-warning" id="no-result" *ngIf="preferences?.length === 0">
-    <span jhiTranslate="twwentyOnePointsApp.preferences.home.notFound">No Preferences found</span>
+    <span jhiTranslate="twentyOnePointsApp.preferences.home.notFound">No Preferences found</span>
   </div>
 
   <div class="table-responsive table-entities" id="entities" *ngIf="preferences && preferences.length > 0">
@@ -40,19 +40,19 @@
           </th>
           <th scope="col" jhiSortBy="weeklyGoal">
             <div class="d-flex">
-              <span jhiTranslate="twwentyOnePointsApp.preferences.weeklyGoal">Weekly Goal</span>
+              <span jhiTranslate="twentyOnePointsApp.preferences.weeklyGoal">Weekly Goal</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="weightUnits">
             <div class="d-flex">
-              <span jhiTranslate="twwentyOnePointsApp.preferences.weightUnits">Weight Units</span>
+              <span jhiTranslate="twentyOnePointsApp.preferences.weightUnits">Weight Units</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="user.login">
             <div class="d-flex">
-              <span jhiTranslate="twwentyOnePointsApp.preferences.user">User</span>
+              <span jhiTranslate="twentyOnePointsApp.preferences.user">User</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -65,7 +65,7 @@
             <a [routerLink]="['/preferences', preferences.id, 'view']">{{ preferences.id }}</a>
           </td>
           <td>{{ preferences.weeklyGoal }}</td>
-          <td jhiTranslate="{{ 'twwentyOnePointsApp.Units.' + preferences.weightUnits }}">{{ preferences.weightUnits }}</td>
+          <td jhiTranslate="{{ 'twentyOnePointsApp.Units.' + preferences.weightUnits }}">{{ preferences.weightUnits }}</td>
           <td>
             {{ preferences.user?.login }}
           </td>

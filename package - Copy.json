@@ -1,8 +1,8 @@
 {
-  "name": "twwenty-one-points",
+  "name": "twenty-one-points",
   "version": "0.0.1-SNAPSHOT",
   "private": true,
-  "description": "Description for TwwentyOnePoints",
+  "description": "Description for TwentyOnePoints",
   "license": "UNLICENSED",
   "scripts": {
     "app:start": "./mvnw",

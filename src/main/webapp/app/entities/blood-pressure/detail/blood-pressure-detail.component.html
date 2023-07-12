@@ -2,7 +2,7 @@
   <div class="col-8">
     <div *ngIf="bloodPressure">
       <h2 data-cy="bloodPressureDetailsHeading">
-        <span jhiTranslate="twwentyOnePointsApp.bloodPressure.detail.title">Blood Pressure</span>
+        <span jhiTranslate="twentyOnePointsApp.bloodPressure.detail.title">Blood Pressure</span>
       </h2>
 
       <hr />
@@ -16,19 +16,19 @@
         <dd>
           <span>{{ bloodPressure.id }}</span>
         </dd>
-        <dt><span jhiTranslate="twwentyOnePointsApp.bloodPressure.date">Date</span></dt>
+        <dt><span jhiTranslate="twentyOnePointsApp.bloodPressure.date">Date</span></dt>
         <dd>
           <span>{{ bloodPressure.date | formatMediumDatetime }}</span>
         </dd>
-        <dt><span jhiTranslate="twwentyOnePointsApp.bloodPressure.systolic">Systolic</span></dt>
+        <dt><span jhiTranslate="twentyOnePointsApp.bloodPressure.systolic">Systolic</span></dt>
         <dd>
           <span>{{ bloodPressure.systolic }}</span>
         </dd>
-        <dt><span jhiTranslate="twwentyOnePointsApp.bloodPressure.diastolic">Diastolic</span></dt>
+        <dt><span jhiTranslate="twentyOnePointsApp.bloodPressure.diastolic">Diastolic</span></dt>
         <dd>
           <span>{{ bloodPressure.diastolic }}</span>
         </dd>
-        <dt><span jhiTranslate="twwentyOnePointsApp.bloodPressure.user">User</span></dt>
+        <dt><span jhiTranslate="twentyOnePointsApp.bloodPressure.user">User</span></dt>
         <dd>
           <span>{{ bloodPressure.user?.login }}</span>
         </dd>

@@ -6,11 +6,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jhipster.health</groupId>
-    <artifactId>twwenty-one-points</artifactId>
+    <artifactId>twenty-one-points</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Twwenty One Points</name>
-    <description>Description for TwwentyOnePoints</description>
+    <name>Twenty One Points</name>
+    <description>Description for TwentyOnePoints</description>
 
     <repositories>
         <!-- jhipster-needle-maven-repository -->
@@ -34,7 +34,7 @@
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <start-class>com.jhipster.health.TwwentyOnePointsApp</start-class>
+        <start-class>com.jhipster.health.TwentyOnePointsApp</start-class>
         <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx1G</argLine>
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
         <run.addResources>false</run.addResources>
@@ -577,7 +577,7 @@
                             </platforms>
                         </from>
                         <to>
-                            <image>twwentyonepoints:latest</image>
+                            <image>twentyonepoints:latest</image>
                         </to>
                         <container>
                             <entrypoint>
@@ -970,9 +970,9 @@
                                 <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                                 <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                                 <driver>org.h2.Driver</driver>
-                                <url>jdbc:h2:file:${project.build.directory}/h2db/db/twwentyonepoints</url>
+                                <url>jdbc:h2:file:${project.build.directory}/h2db/db/twentyonepoints</url>
                                 <defaultSchemaName></defaultSchemaName>
-                                <username>TwwentyOnePoints</username>
+                                <username>TwentyOnePoints</username>
                                 <password></password>
                                 <referenceUrl>hibernate:spring:com.jhipster.health.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                                 <verbose>true</verbose>
@@ -1069,9 +1069,9 @@
                                 <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                                 <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                                 <driver>org.postgresql.Driver</driver>
-                                <url>jdbc:postgresql://localhost:5432/TwwentyOnePoints</url>
+                                <url>jdbc:postgresql://localhost:5432/TwentyOnePoints</url>
                                 <defaultSchemaName></defaultSchemaName>
-                                <username>TwwentyOnePoints</username>
+                                <username>TwentyOnePoints</username>
                                 <password></password>
                                 <referenceUrl>hibernate:spring:com.jhipster.health.domain?dialect=tech.jhipster.domain.util.FixedPostgreSQL10Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                                 <verbose>true</verbose>

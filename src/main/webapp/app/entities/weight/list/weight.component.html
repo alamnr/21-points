@@ -1,11 +1,11 @@
 <div>
   <h2 id="page-heading" data-cy="WeightHeading">
-    <span jhiTranslate="twwentyOnePointsApp.weight.home.title">Weights</span>
+    <span jhiTranslate="twentyOnePointsApp.weight.home.title">Weights</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="twwentyOnePointsApp.weight.home.refreshListLabel">Refresh list</span>
+        <span jhiTranslate="twentyOnePointsApp.weight.home.refreshListLabel">Refresh list</span>
       </button>
 
       <button
@@ -15,7 +15,7 @@
         [routerLink]="['/weight/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="twwentyOnePointsApp.weight.home.createLabel"> Create a new Weight </span>
+        <span jhiTranslate="twentyOnePointsApp.weight.home.createLabel"> Create a new Weight </span>
       </button>
     </div>
   </h2>
@@ -25,7 +25,7 @@
   <jhi-alert></jhi-alert>
 
   <div class="alert alert-warning" id="no-result" *ngIf="weights?.length === 0">
-    <span jhiTranslate="twwentyOnePointsApp.weight.home.notFound">No Weights found</span>
+    <span jhiTranslate="twentyOnePointsApp.weight.home.notFound">No Weights found</span>
   </div>
 
   <div class="table-responsive table-entities" id="entities" *ngIf="weights && weights.length > 0">
@@ -40,19 +40,19 @@
           </th>
           <th scope="col" jhiSortBy="date">
             <div class="d-flex">
-              <span jhiTranslate="twwentyOnePointsApp.weight.date">Date</span>
+              <span jhiTranslate="twentyOnePointsApp.weight.date">Date</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="weight">
             <div class="d-flex">
-              <span jhiTranslate="twwentyOnePointsApp.weight.weight">Weight</span>
+              <span jhiTranslate="twentyOnePointsApp.weight.weight">Weight</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="user.login">
             <div class="d-flex">
-              <span jhiTranslate="twwentyOnePointsApp.weight.user">User</span>
+              <span jhiTranslate="twentyOnePointsApp.weight.user">User</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>

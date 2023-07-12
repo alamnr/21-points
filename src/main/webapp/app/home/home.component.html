@@ -1,18 +1,29 @@
 <div class="row">
   <div class="col-md-3">
-    <span class="hipster img-fluid rounded"></span>
+    <span class="heart img-fluid rounded"></span>
   </div>
 
   <div class="col-md-9">
-    <h1 class="display-4"><span jhiTranslate="home.title">Welcome, Java Hipster!</span> (Twwenty One Points)</h1>
+    <h1 class="display-4"><span jhiTranslate="home.title">Welcome, Java Hipster!</span> (Twenty One Points)</h1>
 
-    <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>
+    <p class="lead" jhiTranslate="home.subtitle">21-Points Health is here to track your health and improve your life ):</p>
 
     <div [ngSwitch]="account !== null">
-      <div class="alert alert-success" *ngSwitchCase="true">
+      <!-- <div class="alert alert-success" *ngSwitchCase="true">
         <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
-          >You are logged in as user "{{ account.login }}".</span
-        >
+          >You are logged in as user "{{ account.login }}".</span>
+
+      
+        </div> -->
+      <div class="row">
+        <div class="col-md-11 col-xs-12 mt-1">
+          <ngb-progressbar [max]="21" [value]="pointsThisWeek.points" [hidden]="!pointsThisWeek.points" [striped]="true">
+            <span *ngIf="pointsThisWeek.points" class="fw-bolder"> {{ pointsThisWeek.points }} / Goal: 10 </span>
+          </ngb-progressbar>
+          <ngb-alert [dismissible]="false" [hidden]="pointsThisWeek.points">
+            <span jhiTranslate="home.points.getMoving"> No points yet this week, better get moving!</span>
+          </ngb-alert>
+        </div>
       </div>
 
       <div class="alert alert-warning" *ngSwitchCase="false">
@@ -29,50 +40,5 @@
         <a class="alert-link" routerLink="account/register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
       </div>
     </div>
-
-    <p jhiTranslate="home.question">If you have any question on JHipster:</p>
-
-    <ul>
-      <li>
-        <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.homepage"
-          >JHipster homepage</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://stackoverflow.com/tags/jhipster/info"
-          target="_blank"
-          rel="noopener noreferrer"
-          jhiTranslate="home.link.stackoverflow"
-          >JHipster on Stack Overflow</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/jhipster/generator-jhipster/issues?state=open"
-          target="_blank"
-          rel="noopener noreferrer"
-          jhiTranslate="home.link.bugtracker"
-          >JHipster bug tracker</a
-        >
-      </li>
-      <li>
-        <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.chat"
-          >JHipster public chat room</a
-        >
-      </li>
-      <li>
-        <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.follow"
-          >follow @jhipster on Twitter</a
-        >
-      </li>
-    </ul>
-
-    <p>
-      <span jhiTranslate="home.like">If you like JHipster, don't forget to give us a star on</span>
-      <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.github"
-        >GitHub</a
-      >!
-    </p>
   </div>
 </div>

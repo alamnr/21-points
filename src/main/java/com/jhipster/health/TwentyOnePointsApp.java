@@ -21,18 +21,18 @@ import tech.jhipster.config.JHipsterConstants;
 
 @SpringBootApplication
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
-public class TwwentyOnePointsApp {
+public class TwentyOnePointsApp {
 
-    private static final Logger log = LoggerFactory.getLogger(TwwentyOnePointsApp.class);
+    private static final Logger log = LoggerFactory.getLogger(TwentyOnePointsApp.class);
 
     private final Environment env;
 
-    public TwwentyOnePointsApp(Environment env) {
+    public TwentyOnePointsApp(Environment env) {
         this.env = env;
     }
 
     /**
-     * Initializes TwwentyOnePoints.
+     * Initializes TwentyOnePoints.
      * <p>
      * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
      * <p>
@@ -65,7 +65,7 @@ public class TwwentyOnePointsApp {
      * @param args the command line arguments.
      */
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(TwwentyOnePointsApp.class);
+        SpringApplication app = new SpringApplication(TwentyOnePointsApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         logApplicationStartup(env);

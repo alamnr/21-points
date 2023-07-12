@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="weight">
-      <h2 data-cy="weightDetailsHeading"><span jhiTranslate="twwentyOnePointsApp.weight.detail.title">Weight</span></h2>
+      <h2 data-cy="weightDetailsHeading"><span jhiTranslate="twentyOnePointsApp.weight.detail.title">Weight</span></h2>
 
       <hr />
 
@@ -14,15 +14,15 @@
         <dd>
           <span>{{ weight.id }}</span>
         </dd>
-        <dt><span jhiTranslate="twwentyOnePointsApp.weight.date">Date</span></dt>
+        <dt><span jhiTranslate="twentyOnePointsApp.weight.date">Date</span></dt>
         <dd>
           <span>{{ weight.date | formatMediumDatetime }}</span>
         </dd>
-        <dt><span jhiTranslate="twwentyOnePointsApp.weight.weight">Weight</span></dt>
+        <dt><span jhiTranslate="twentyOnePointsApp.weight.weight">Weight</span></dt>
         <dd>
           <span>{{ weight.weight }}</span>
         </dd>
-        <dt><span jhiTranslate="twwentyOnePointsApp.weight.user">User</span></dt>
+        <dt><span jhiTranslate="twentyOnePointsApp.weight.user">User</span></dt>
         <dd>
           <span>{{ weight.user?.login }}</span>
         </dd>

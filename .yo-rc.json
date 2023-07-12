@@ -2,7 +2,7 @@
   "generator-jhipster": {
     "applicationType": "monolith",
     "authenticationType": "jwt",
-    "baseName": "TwwentyOnePoints",
+    "baseName": "TwentyOnePoints",
     "blueprints": [],
     "buildTool": "maven",
     "cacheProvider": "ehcache",

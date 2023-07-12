@@ -4,7 +4,7 @@
       <h2
         id="jhi-blood-pressure-heading"
         data-cy="BloodPressureCreateUpdateHeading"
-        jhiTranslate="twwentyOnePointsApp.bloodPressure.home.createOrEditLabel"
+        jhiTranslate="twentyOnePointsApp.bloodPressure.home.createOrEditLabel"
       >
         Create or edit a Blood Pressure
       </h2>
@@ -18,7 +18,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="twwentyOnePointsApp.bloodPressure.date" for="field_date">Date</label>
+          <label class="form-label" jhiTranslate="twentyOnePointsApp.bloodPressure.date" for="field_date">Date</label>
           <div class="d-flex">
             <input
               id="field_date"
@@ -45,7 +45,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="twwentyOnePointsApp.bloodPressure.systolic" for="field_systolic">Systolic</label>
+          <label class="form-label" jhiTranslate="twentyOnePointsApp.bloodPressure.systolic" for="field_systolic">Systolic</label>
           <input type="number" class="form-control" name="systolic" id="field_systolic" data-cy="systolic" formControlName="systolic" />
           <div *ngIf="editForm.get('systolic')!.invalid && (editForm.get('systolic')!.dirty || editForm.get('systolic')!.touched)">
             <small
@@ -66,7 +66,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="twwentyOnePointsApp.bloodPressure.diastolic" for="field_diastolic">Diastolic</label>
+          <label class="form-label" jhiTranslate="twentyOnePointsApp.bloodPressure.diastolic" for="field_diastolic">Diastolic</label>
           <input type="number" class="form-control" name="diastolic" id="field_diastolic" data-cy="diastolic" formControlName="diastolic" />
           <div *ngIf="editForm.get('diastolic')!.invalid && (editForm.get('diastolic')!.dirty || editForm.get('diastolic')!.touched)">
             <small
@@ -87,7 +87,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="twwentyOnePointsApp.bloodPressure.user" for="field_user">User</label>
+          <label class="form-label" jhiTranslate="twentyOnePointsApp.bloodPressure.user" for="field_user">User</label>
           <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
             <option [ngValue]="null"></option>
             <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.login }}</option>
