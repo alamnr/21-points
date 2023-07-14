@@ -7,7 +7,7 @@ import dayjs from 'dayjs/esm';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IBloodPressure, NewBloodPressure } from '../blood-pressure.model';
+import { IBloodPressure, NewBloodPressure, IBloodPressureByPeriod } from '../blood-pressure.model';
 
 export type PartialUpdateBloodPressure = Partial<IBloodPressure> & Pick<IBloodPressure, 'id'>;
 
@@ -66,6 +66,10 @@ export class BloodPressureService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  last30Days(): Observable<HttpResponse<IBloodPressureByPeriod>> {
+    return this.http.get<IBloodPressureByPeriod>('/api/bp-by-days/30', { observe: 'response' });
   }
 
   getBloodPressureIdentifier(bloodPressure: Pick<IBloodPressure, 'id'>): number {

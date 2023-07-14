@@ -9,4 +9,9 @@ export interface IBloodPressure {
   user?: Pick<IUser, 'id' | 'login'> | null;
 }
 
+export interface IBloodPressureByPeriod {
+  period: string;
+  readings: Array<IBloodPressure>;
+}
+
 export type NewBloodPressure = Omit<IBloodPressure, 'id'> & { id: null };

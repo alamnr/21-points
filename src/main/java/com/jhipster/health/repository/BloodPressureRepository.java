@@ -1,6 +1,7 @@
 package com.jhipster.health.repository;
 
 import com.jhipster.health.domain.BloodPressure;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -40,4 +41,7 @@ public interface BloodPressureRepository extends JpaRepository<BloodPressure, Lo
 
     @Query("select bloodPressure from BloodPressure bloodPressure left join fetch bloodPressure.user where bloodPressure.id =:id")
     Optional<BloodPressure> findOneWithToOneRelationships(@Param("id") Long id);
+
+    List<BloodPressure> findAllByDateBetweenOrderByDateDesc(ZonedDateTime firstDate, ZonedDateTime secondDate);
+    List<BloodPressure> findAllByDateBetweenAndUserLoginOrderByDateAsc(ZonedDateTime firstDate, ZonedDateTime secondDate, String login);
 }

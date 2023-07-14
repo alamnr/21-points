@@ -2,6 +2,7 @@ package com.jhipster.health.domain;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -26,7 +27,7 @@ public class BloodPressure implements Serializable {
 
     @NotNull
     @Column(name = "date", nullable = false)
-    private Instant date;
+    private ZonedDateTime date;
 
     @NotNull
     @Column(name = "systolic", nullable = false)
@@ -41,6 +42,15 @@ public class BloodPressure implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
+    public BloodPressure() {}
+
+    public BloodPressure(ZonedDateTime dateTime, Integer systolic, Integer diastolic, User user) {
+        this.date = dateTime;
+        this.systolic = systolic.floatValue();
+        this.diastolic = diastolic.floatValue();
+        this.user = user;
+    }
+
     public Long getId() {
         return this.id;
     }
@@ -54,16 +64,16 @@ public class BloodPressure implements Serializable {
         this.id = id;
     }
 
-    public Instant getDate() {
+    public ZonedDateTime getDate() {
         return this.date;
     }
 
-    public BloodPressure date(Instant date) {
+    public BloodPressure date(ZonedDateTime date) {
         this.setDate(date);
         return this;
     }
 
-    public void setDate(Instant date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

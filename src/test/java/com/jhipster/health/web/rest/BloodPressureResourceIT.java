@@ -2,14 +2,21 @@ package com.jhipster.health.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.jhipster.health.IntegrationTest;
 import com.jhipster.health.domain.BloodPressure;
+import com.jhipster.health.domain.User;
 import com.jhipster.health.repository.BloodPressureRepository;
+import com.jhipster.health.repository.UserRepository;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +65,9 @@ class BloodPressureResourceIT {
     @Autowired
     private BloodPressureRepository bloodPressureRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Mock
     private BloodPressureRepository bloodPressureRepositoryMock;
 
@@ -76,7 +86,10 @@ class BloodPressureResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static BloodPressure createEntity(EntityManager em) {
-        BloodPressure bloodPressure = new BloodPressure().date(DEFAULT_DATE).systolic(DEFAULT_SYSTOLIC).diastolic(DEFAULT_DIASTOLIC);
+        BloodPressure bloodPressure = new BloodPressure()
+            .date(DEFAULT_DATE.atZone(ZoneId.of("Asia/Dhaka")))
+            .systolic(DEFAULT_SYSTOLIC)
+            .diastolic(DEFAULT_DIASTOLIC);
         return bloodPressure;
     }
 
@@ -87,13 +100,62 @@ class BloodPressureResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static BloodPressure createUpdatedEntity(EntityManager em) {
-        BloodPressure bloodPressure = new BloodPressure().date(UPDATED_DATE).systolic(UPDATED_SYSTOLIC).diastolic(UPDATED_DIASTOLIC);
+        BloodPressure bloodPressure = new BloodPressure()
+            .date(UPDATED_DATE.atZone(ZoneId.of("Asia/Dhaka")))
+            .systolic(UPDATED_SYSTOLIC)
+            .diastolic(UPDATED_DIASTOLIC);
         return bloodPressure;
+    }
+
+    private void createBloodPressureByMonth(ZonedDateTime firstDate, ZonedDateTime firstDayOfLastMonth) {
+        User user = userRepository.findOneByLogin("user").get();
+
+        bloodPressure = new BloodPressure().date(firstDate).systolic(120f).diastolic(80f).user(user);
+        bloodPressureRepository.saveAndFlush(bloodPressure);
+        bloodPressure = new BloodPressure().date(firstDate.plusDays(10)).systolic(125f).diastolic(75f).user(user);
+        bloodPressureRepository.saveAndFlush(bloodPressure);
+        bloodPressure = new BloodPressure().date(firstDate.plusDays(20)).systolic(100f).diastolic(69f).user(user);
+        bloodPressureRepository.saveAndFlush(bloodPressure);
+
+        // last month
+        bloodPressure = new BloodPressure().date(firstDayOfLastMonth).systolic(130f).diastolic(90f).user(user);
+        bloodPressureRepository.saveAndFlush(bloodPressure);
+        bloodPressure = new BloodPressure().date(firstDayOfLastMonth.plusDays(11)).systolic(135f).diastolic(85f).user(user);
+        bloodPressureRepository.saveAndFlush(bloodPressure);
+        bloodPressure = new BloodPressure().date(firstDayOfLastMonth.plusDays(23)).systolic(130f).diastolic(75f).user(user);
+        bloodPressureRepository.saveAndFlush(bloodPressure);
     }
 
     @BeforeEach
     public void initTest() {
         bloodPressure = createEntity(em);
+    }
+
+    @Test
+    @Transactional
+    public void getBloodPressureForLast30Days() throws Exception {
+        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime twentyNineDaysAgo = now.minusDays(29);
+        ZonedDateTime firstDayOfLastMonth = now.withDayOfMonth(1).minusMonths(1);
+        System.out.println("29 - " + twentyNineDaysAgo + "    firstdayOfLastMonth - " + firstDayOfLastMonth);
+        createBloodPressureByMonth(twentyNineDaysAgo, firstDayOfLastMonth);
+
+        // Get all the blood pressure reading
+        restBloodPressureMockMvc
+            .perform(get("/api/blood-pressures"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$", hasSize(6)));
+
+        // Get the blood pressure readings for the last 30 days
+        restBloodPressureMockMvc
+            .perform(get("/api/bp-by-days/{days}", 30))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.period").value("Last 30 Days"))
+            .andExpect(jsonPath("$.readings.[*].systolic").value(hasItem(120.0)))
+            .andExpect(jsonPath("$.readings.[*].diastolic").value(hasItem(69.0)));
     }
 
     @Test
@@ -253,7 +315,7 @@ class BloodPressureResourceIT {
         BloodPressure updatedBloodPressure = bloodPressureRepository.findById(bloodPressure.getId()).get();
         // Disconnect from session so that the updates on updatedBloodPressure are not directly saved in db
         em.detach(updatedBloodPressure);
-        updatedBloodPressure.date(UPDATED_DATE).systolic(UPDATED_SYSTOLIC).diastolic(UPDATED_DIASTOLIC);
+        updatedBloodPressure.date(UPDATED_DATE.atZone(ZoneId.of("Asia/Dhaka"))).systolic(UPDATED_SYSTOLIC).diastolic(UPDATED_DIASTOLIC);
 
         restBloodPressureMockMvc
             .perform(
@@ -371,7 +433,10 @@ class BloodPressureResourceIT {
         BloodPressure partialUpdatedBloodPressure = new BloodPressure();
         partialUpdatedBloodPressure.setId(bloodPressure.getId());
 
-        partialUpdatedBloodPressure.date(UPDATED_DATE).systolic(UPDATED_SYSTOLIC).diastolic(UPDATED_DIASTOLIC);
+        partialUpdatedBloodPressure
+            .date(UPDATED_DATE.atZone(ZoneId.of("Asia/Dhaka")))
+            .systolic(UPDATED_SYSTOLIC)
+            .diastolic(UPDATED_DIASTOLIC);
 
         restBloodPressureMockMvc
             .perform(
